@@ -16,9 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 public class Register_complaint extends AppCompatActivity {
-
-    View popupView;
-    PopupWindow popupWindow;
     String selectedItem = null;
     AutoCompleteTextView departmentAdapter;
     Button submitBtn;
@@ -54,9 +51,9 @@ public class Register_complaint extends AppCompatActivity {
                 Intent switchView = new Intent(getApplicationContext(), GarbageDepartment.class);
                 startActivity(switchView);
             } else if(selectedItem.equals(department[2])) {
-                startActivity(new Intent(getApplicationContext(), GarbageDepartment.class));
+                startActivity(new Intent(getApplicationContext(), ElectricityDepartment.class));
             } else if(selectedItem.equals(department[3])) {
-                startActivity(new Intent(getApplicationContext(), GarbageDepartment.class));
+                startActivity(new Intent(getApplicationContext(), WaterDepartment.class));
             } else {
                 Toast.makeText(this, "Select Department", Toast.LENGTH_SHORT).show();
             }

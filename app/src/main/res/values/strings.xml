@@ -2,6 +2,7 @@
     <string name="label_app_name">Complaint Management</string>s
     <string name="label_status">Status</string>
     <string name="label_register">Register</string>
+    <string name="label_electricity">Electricity Department</string>
     <string name="label_garbage">Garbage Department</string>
     <string name="app_name">Complaint Management System</string>
     <string name="developer_name">Developed By Theebika</string>
@@ -9,6 +10,7 @@
     <string name="hint_name">Name</string>
     <string name="hint_query">Query</string>
     <string name="hint_complaintDepartment">Select Department</string>
+    <string name="hint_consumerNumber">Consumer Number</string>
     <string name="hint_phoneNumber">Phone Number</string>
     <string name="hint_address">Address</string>
     <string name="hint_pincode">Pin Code</string>

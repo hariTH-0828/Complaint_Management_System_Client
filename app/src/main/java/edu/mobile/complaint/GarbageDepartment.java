@@ -119,7 +119,7 @@ public class GarbageDepartment extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<Garbage> call,@NonNull Throwable t) {
-                Toast.makeText(GarbageDepartment.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(GarbageDepartment.this, "Server connection failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -144,7 +144,7 @@ public class GarbageDepartment extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<GarbageComplaint>> call,@NonNull Throwable t) {
-                Toast.makeText(GarbageDepartment.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(GarbageDepartment.this, "Server connection failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -163,7 +163,7 @@ public class GarbageDepartment extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<States>> call,@NonNull Throwable t) {
-                Toast.makeText(GarbageDepartment.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(GarbageDepartment.this, "Server connection failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -182,7 +182,7 @@ public class GarbageDepartment extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<District>> call, @NonNull Throwable t) {
-                Toast.makeText(GarbageDepartment.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(GarbageDepartment.this, "Server connection failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
