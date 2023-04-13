@@ -1,0 +1,29 @@
+<resources>
+    <string name="label_app_name">Complaint Management</string>s
+    <string name="label_status">Status</string>
+    <string name="label_register">Register</string>
+    <string name="label_garbage">Garbage Department</string>
+    <string name="app_name">Complaint Management System</string>
+    <string name="developer_name">Developed By Theebika</string>
+
+    <string name="hint_name">Name</string>
+    <string name="hint_query">Query</string>
+    <string name="hint_complaintDepartment">Select Department</string>
+    <string name="hint_phoneNumber">Phone Number</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_pincode">Pin Code</string>
+    <string name="hint_state">State</string>
+    <string name="hint_district">District</string>
+    <string name="hint_typeOfComplaint">Select Complaint</string>
+    <string name="hint_desc_department">To message your complaint to our customer support, choose a department.</string>
+
+    <string name="desc_user_photo">user-photo</string>
+
+    <string name="btn_create">create complaint</string>
+    <string name="btn_status">complaint status</string>
+    <string name="btn_browse">Browse</string>
+    <string name="btn_submit">Submit</string>
+    <string name="text_department">Department</string>
+
+
+</resources>
