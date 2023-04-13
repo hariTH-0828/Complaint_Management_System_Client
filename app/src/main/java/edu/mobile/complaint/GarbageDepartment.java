@@ -1,5 +1,6 @@
 package edu.mobile.complaint;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -94,12 +95,12 @@ public class GarbageDepartment extends AppCompatActivity {
 
         Garbage garbage = new Garbage();
 
-        garbage.setName(name.getText().toString());
+        garbage.setName(Objects.requireNonNull(name.getText()).toString());
         garbage.setProblems(garbageComplaintAdapter.getText().toString());
-        garbage.setQuery(query.getText().toString());
-        garbage.setPhoneNumber(phoneNumber.getText().toString());
-        garbage.setAddress(address.getText().toString());
-        garbage.setPincode(pinCode.getText().toString());
+        garbage.setQuery(Objects.requireNonNull(query.getText()).toString());
+        garbage.setPhoneNumber(Objects.requireNonNull(phoneNumber.getText()).toString());
+        garbage.setAddress(Objects.requireNonNull(address.getText()).toString());
+        garbage.setPincode(Objects.requireNonNull(pinCode.getText()).toString());
         garbage.setStateId(stateId);
         garbage.setDistrictId(districtId);
         garbage.setDate(getDate());
@@ -125,6 +126,7 @@ public class GarbageDepartment extends AppCompatActivity {
 
     private String getDate() {
         Date date = new Date();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         return ft.format(date);
     }
