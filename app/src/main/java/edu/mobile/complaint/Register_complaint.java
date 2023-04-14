@@ -33,7 +33,7 @@ public class Register_complaint extends AppCompatActivity {
         submitBtn = findViewById(R.id.submitDepartment);
 
         String[] department = new String[]{
-                "Select Department", "Garbage", "Electrical", "Water"
+                "Select Department", "Garbage", "Electricity", "Water"
         };
         
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_list, department);
