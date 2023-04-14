@@ -16,7 +16,7 @@ public class RetrofitService {
 
     private void initializeRetrofit() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.12:2808")
+                .baseUrl("http://192.168.1.11:2808")
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .build();
     }

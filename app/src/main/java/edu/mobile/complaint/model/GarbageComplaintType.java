@@ -2,7 +2,7 @@ package edu.mobile.complaint.model;
 
 import androidx.annotation.NonNull;
 
-public class ElectricityComplaint {
+public class GarbageComplaintType {
 
     private int id;
     private String issue;
@@ -24,6 +24,4 @@ public class ElectricityComplaint {
     public String toString() {
         return issue;
     }
-
 }
-

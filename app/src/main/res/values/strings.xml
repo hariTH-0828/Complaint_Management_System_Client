@@ -4,6 +4,7 @@
     <string name="label_register">Register</string>
     <string name="label_electricity">Electricity Department</string>
     <string name="label_garbage">Garbage Department</string>
+    <string name="label_water">Water Department</string>
     <string name="app_name">Complaint Management System</string>
     <string name="developer_name">Developed By Theebika</string>
 

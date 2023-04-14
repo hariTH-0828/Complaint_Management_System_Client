@@ -24,7 +24,7 @@ import edu.mobile.complaint.api.GarbageComplaintApi;
 import edu.mobile.complaint.api.StatesApi;
 import edu.mobile.complaint.model.District;
 import edu.mobile.complaint.model.Garbage;
-import edu.mobile.complaint.model.GarbageComplaint;
+import edu.mobile.complaint.model.GarbageComplaintType;
 import edu.mobile.complaint.model.PriorityLevel;
 import edu.mobile.complaint.model.States;
 import edu.mobile.complaint.model.Status;
@@ -132,18 +132,18 @@ public class GarbageDepartment extends AppCompatActivity {
     }
     private void loadGarbageComplaint() {
         GarbageComplaintApi garbageComplaintApi = retrofitService.getRetrofit().create(GarbageComplaintApi.class);
-        garbageComplaintApi.getAllComplaints().enqueue(new Callback<List<GarbageComplaint>>() {
+        garbageComplaintApi.getAllComplaints().enqueue(new Callback<List<GarbageComplaintType>>() {
             @Override
-            public void onResponse(@NonNull Call<List<GarbageComplaint>> call,@NonNull Response<List<GarbageComplaint>> response) {
+            public void onResponse(@NonNull Call<List<GarbageComplaintType>> call, @NonNull Response<List<GarbageComplaintType>> response) {
                 if(response.isSuccessful()) {
-                    List<GarbageComplaint> garbageComplaints = response.body();
-                    ArrayAdapter<GarbageComplaint> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_list, garbageComplaints);
+                    List<GarbageComplaintType> garbageComplaintTypes = response.body();
+                    ArrayAdapter<GarbageComplaintType> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_list, garbageComplaintTypes);
                     garbageComplaintAdapter.setAdapter(adapter);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<GarbageComplaint>> call,@NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<GarbageComplaintType>> call, @NonNull Throwable t) {
                 Toast.makeText(GarbageDepartment.this, "Server connection failed", Toast.LENGTH_SHORT).show();
             }
         });

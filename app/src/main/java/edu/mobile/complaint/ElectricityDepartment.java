@@ -22,8 +22,7 @@ import edu.mobile.complaint.api.ElectricityApi;
 import edu.mobile.complaint.api.ElectricityComplaintApi;
 import edu.mobile.complaint.api.ElectricityConsumerApi;
 import edu.mobile.complaint.model.Electricity;
-import edu.mobile.complaint.model.ElectricityComplaint;
-import edu.mobile.complaint.model.ElectricityConsumer;
+import edu.mobile.complaint.model.ElectricityComplaintType;
 import edu.mobile.complaint.model.PriorityLevel;
 import edu.mobile.complaint.model.Status;
 import edu.mobile.complaint.retrofit.RetrofitService;
@@ -67,18 +66,18 @@ public class ElectricityDepartment extends AppCompatActivity {
     private void loadComplaintType() {
         ElectricityComplaintApi electricityComplaintApi = retrofitService.getRetrofit().create(ElectricityComplaintApi.class);
 
-        electricityComplaintApi.getAllComplaintTypes().enqueue(new Callback<List<ElectricityComplaint>>() {
+        electricityComplaintApi.getAllComplaintTypes().enqueue(new Callback<List<ElectricityComplaintType>>() {
             @Override
-            public void onResponse(@NonNull Call<List<ElectricityComplaint>> call,@NonNull Response<List<ElectricityComplaint>> response) {
+            public void onResponse(@NonNull Call<List<ElectricityComplaintType>> call, @NonNull Response<List<ElectricityComplaintType>> response) {
                 if(response.isSuccessful()) {
-                    List<ElectricityComplaint> complaintList = response.body();
-                    ArrayAdapter<ElectricityComplaint> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_list, complaintList);
+                    List<ElectricityComplaintType> complaintList = response.body();
+                    ArrayAdapter<ElectricityComplaintType> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.dropdown_list, complaintList);
                     electricityComplaintAdapter.setAdapter(adapter);
                 } else Toast.makeText(ElectricityDepartment.this, "Response fetch failed", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<ElectricityComplaint>> call,@NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<ElectricityComplaintType>> call, @NonNull Throwable t) {
                 Toast.makeText(ElectricityDepartment.this, "Server connection failed", Toast.LENGTH_SHORT).show();
             }
         });
@@ -105,8 +104,8 @@ public class ElectricityDepartment extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Electricity> call, Throwable t) {
-
+            public void onFailure(@NonNull Call<Electricity> call,@NonNull Throwable t) {
+                Toast.makeText(ElectricityDepartment.this, "Complaint failed to create", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,19 +118,18 @@ public class ElectricityDepartment extends AppCompatActivity {
 
     private void getConsumerId(String consumer_number) {
         ElectricityConsumerApi electricityConsumerApi = retrofitService.getRetrofit().create(ElectricityConsumerApi.class);
-        electricityConsumerApi.getConsumerId(consumer_number).enqueue(new Callback<ElectricityConsumer>() {
+        electricityConsumerApi.getConsumerId(consumer_number).enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(@NonNull Call<ElectricityConsumer> call, @NonNull Response<ElectricityConsumer> response) {
+            public void onResponse(@NonNull Call<Integer> call,@NonNull Response<Integer> response) {
                 if(response.isSuccessful()) {
-                    ElectricityConsumer responseConsumer = response.body();
-                    consumerId = Objects.requireNonNull(responseConsumer).getId();
+                    consumerId = Objects.requireNonNull(response.body());
                     createComplaint(consumerId);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ElectricityConsumer> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(@NonNull Call<Integer> call,@NonNull Throwable t) {
+                Toast.makeText(ElectricityDepartment.this, "Consumer number is invalid", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -153,7 +151,4 @@ public class ElectricityDepartment extends AppCompatActivity {
         return dateFormat.format(date);
 
     }
-    /*
-    *  Id, consumerId, complaint, priorityLevel, date, status
-    * */
 }

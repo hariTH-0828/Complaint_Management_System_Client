@@ -8,6 +8,6 @@ import retrofit2.http.Path;
 public interface ElectricityConsumerApi {
 
     @GET("/api/electricity/consumer/{consumerNumber}")
-    Call<ElectricityConsumer> getConsumerId(@Path("consumerNumber") String consumerNumber);
+    Call<Integer> getConsumerId(@Path("consumerNumber") String consumerNumber);
 
 }
