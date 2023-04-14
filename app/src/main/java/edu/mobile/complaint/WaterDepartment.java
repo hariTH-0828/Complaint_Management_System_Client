@@ -1,6 +1,7 @@
 package edu.mobile.complaint;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -38,7 +39,8 @@ public class WaterDepartment extends AppCompatActivity {
     AutoCompleteTextView waterComplaintAdapter, stateAdapter, districtAdapter;
     Button submit;
     int stateId, districtId;
-    TextInputEditText name, query, phoneNumber, address, pinCode;
+    TextInputEditText name, query, phoneNumber, address;
+    String complaintId;
 
     RetrofitService retrofitService = new RetrofitService();
 
@@ -54,7 +56,6 @@ public class WaterDepartment extends AppCompatActivity {
         query = findViewById(R.id.editQuery);
         phoneNumber = findViewById(R.id.editPhoneNumber);
         address = findViewById(R.id.editAddress);
-        pinCode = findViewById(R.id.editPinCode);
         waterComplaintAdapter = findViewById(R.id.editWaterComplaintList);
         stateAdapter = findViewById(R.id.editState);
         districtAdapter = findViewById(R.id.editDistrict);
@@ -75,15 +76,18 @@ public class WaterDepartment extends AppCompatActivity {
 
         submit.setOnClickListener(view -> {
             if(!Objects.requireNonNull(name.getText()).toString().trim().isEmpty() && !Objects.requireNonNull(phoneNumber.getText()).toString().trim().isEmpty()
-                    && !Objects.requireNonNull(address.getText()).toString().trim().isEmpty() && !Objects.requireNonNull(pinCode.getText()).toString().trim().isEmpty()
-                    && !Objects.requireNonNull(waterComplaintAdapter.getText()).toString().isEmpty() && !Objects.requireNonNull(stateAdapter.getText()).toString().trim().isEmpty()
-                    && !Objects.requireNonNull(districtAdapter.getText()).toString().trim().isEmpty() && !Objects.requireNonNull(waterComplaintAdapter.getText()).toString().equals("Other")) {
+                    && !Objects.requireNonNull(address.getText()).toString().trim().isEmpty() && !Objects.requireNonNull(waterComplaintAdapter.getText()).toString().isEmpty()
+                    && !Objects.requireNonNull(stateAdapter.getText()).toString().trim().isEmpty() && !Objects.requireNonNull(districtAdapter.getText()).toString().trim().isEmpty()
+                    && !Objects.requireNonNull(waterComplaintAdapter.getText()).toString().equals("Other")) {
 
                 if(Objects.requireNonNull(phoneNumber.getText()).toString().length() != 10) {
                     Toast.makeText(getApplicationContext(), "Invalid Phone number", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                createComplaint();
+                complaintId = GeneratorComplaintId.generateId();
+                if(!complaintId.isEmpty()) {
+                    createComplaint();
+                }
             } else {
                 Toast.makeText(getApplicationContext(), "Provide all field - Empty field not allowed", Toast.LENGTH_SHORT).show();
             }
@@ -100,17 +104,19 @@ public class WaterDepartment extends AppCompatActivity {
         water.setQuery(Objects.requireNonNull(query.getText()).toString());
         water.setPhoneNumber(Objects.requireNonNull(phoneNumber.getText()).toString());
         water.setAddress(Objects.requireNonNull(address.getText()).toString());
-        water.setPincode(Objects.requireNonNull(pinCode.getText()).toString());
         water.setStateId(stateId);
         water.setDistrictId(districtId);
         water.setDate(getDate());
         water.setStatus(String.valueOf(Status.SUBMITTED));
         water.setPriorityLevel(String.valueOf(PriorityLevel.LOW));
+        water.setComplaintId(complaintId);
         waterApi.createComplaint(water).enqueue(new Callback<Water>() {
             @Override
             public void onResponse(@NonNull Call<Water> call,@NonNull Response<Water> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(WaterDepartment.this, "Complaint create successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), ComplaintId.class);
+                    intent.putExtra("Complaint_ID", complaintId);
+                    startActivity(intent);
                 }else Toast.makeText(WaterDepartment.this, "Complaint create failed", Toast.LENGTH_SHORT).show();
             }
 

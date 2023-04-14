@@ -14,7 +14,7 @@ public class Water {
 
     private String address;
 
-    private String pincode;
+    private String complaintId;
 
     private int stateId;
 
@@ -70,14 +70,6 @@ public class Water {
         this.address = address;
     }
 
-    public String getPincode() {
-        return pincode;
-    }
-
-    public void setPincode(String pincode) {
-        this.pincode = pincode;
-    }
-
     public int getStateId() {
         return stateId;
     }
@@ -112,6 +104,13 @@ public class Water {
 
     public String getStatus() {
         return status;
+    }
+    public String getComplaintId() {
+        return complaintId;
+    }
+
+    public void setComplaintId(String complaintId) {
+        this.complaintId = complaintId;
     }
 
     public void setStatus(String status) {

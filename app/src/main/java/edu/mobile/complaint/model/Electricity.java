@@ -15,6 +15,8 @@ public class Electricity {
 
     private String status;
 
+    private String complaintId;
+
     public long getId() {
         return id;
     }
@@ -61,6 +63,14 @@ public class Electricity {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getComplaintId() {
+        return complaintId;
+    }
+
+    public void setComplaintId(String complaintId) {
+        this.complaintId = complaintId;
     }
 
     public void setStatus(String status) {

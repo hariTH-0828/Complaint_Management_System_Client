@@ -1,6 +1,7 @@
 package edu.mobile.complaint;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -35,8 +36,9 @@ public class ElectricityDepartment extends AppCompatActivity {
     AutoCompleteTextView electricityComplaintAdapter;
     TextInputEditText consumerNumber, query;
     Button submit;
-    int consumerId;
     RetrofitService retrofitService = new RetrofitService();
+    int consumerId;
+    String complaintId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +95,15 @@ public class ElectricityDepartment extends AppCompatActivity {
         electricity.setPriorityLevel(PriorityLevel.LOW.toString());
         electricity.setStatus(Status.SUBMITTED.toString());
         electricity.setConsumerId(id);
+        electricity.setComplaintId(complaintId);
 
         electricityApi.createConsumerComplaint(electricity).enqueue(new Callback<Electricity>() {
             @Override
             public void onResponse(@NonNull Call<Electricity> call, @NonNull Response<Electricity> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "Create complaint successful", Toast.LENGTH_SHORT).show();
-                    resetPage();
+                    Intent intent = new Intent(getApplicationContext(), ComplaintId.class);
+                    intent.putExtra("Complaint_ID", complaintId);
+                    startActivity(intent);
                 }
             }
 
@@ -110,12 +114,6 @@ public class ElectricityDepartment extends AppCompatActivity {
         });
     }
 
-    private void resetPage() {
-        consumerNumber.setText("");
-        electricityComplaintAdapter.clearListSelection();
-        query.setText("");
-    }
-
     private void getConsumerId(String consumer_number) {
         ElectricityConsumerApi electricityConsumerApi = retrofitService.getRetrofit().create(ElectricityConsumerApi.class);
         electricityConsumerApi.getConsumerId(consumer_number).enqueue(new Callback<Integer>() {
@@ -123,7 +121,10 @@ public class ElectricityDepartment extends AppCompatActivity {
             public void onResponse(@NonNull Call<Integer> call,@NonNull Response<Integer> response) {
                 if(response.isSuccessful()) {
                     consumerId = Objects.requireNonNull(response.body());
-                    createComplaint(consumerId);
+                    complaintId = GeneratorComplaintId.generateId();
+                    if(!complaintId.isEmpty()){
+                        createComplaint(consumerId);
+                    }
                 }
             }
 

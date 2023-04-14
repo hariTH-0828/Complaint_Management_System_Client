@@ -27,6 +27,9 @@
     <string name="btn_browse">Browse</string>
     <string name="btn_submit">Submit</string>
     <string name="text_department">Department</string>
+    <string name="msg_congratulation">Congratulation complaint created</string>
+    <string name="text_complaintId">Complaint ID</string>
+    <string name="btn_backToHome">Back to Home</string>
 
 
 </resources>

@@ -8,12 +8,12 @@ public class Garbage {
     private String query;
     private String phoneNumber;
     private String address;
-    private String pincode;
     private int stateId;
     private int districtId;
     private String priorityLevel;
     private String date;
     private String status;
+    private String complaintId;
 
     public long getId() {
         return id;
@@ -59,12 +59,12 @@ public class Garbage {
         this.address = address;
     }
 
-    public String getPincode() {
-        return pincode;
+    public String getComplaintId() {
+        return complaintId;
     }
 
-    public void setPincode(String pincode) {
-        this.pincode = pincode;
+    public void setComplaintId(String complaintId) {
+        this.complaintId = complaintId;
     }
 
     public int getStateId() {

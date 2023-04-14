@@ -18,12 +18,7 @@ public class MainActivity extends AppCompatActivity {
         createBtn = findViewById(R.id.btn_createComplaint);
         statusBtn = findViewById(R.id.btn_ComplaintStatus);
 
-        createBtn.setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, Register_complaint.class));
-        });
-
-        statusBtn.setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, Status_complaint.class));
-        });
+        createBtn.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, Register_complaint.class)));
+        statusBtn.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, Status_complaint.class)));
     }
 }

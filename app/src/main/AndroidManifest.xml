@@ -18,9 +18,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ComplaintId"
+            android:exported="false"
+            android:theme="@style/Theme_ComplaintId"/>
+        <activity
             android:name=".WaterDepartment"
             android:exported="false"
-            android:label="@string/label_water"/>
+            android:label="@string/label_water" />
         <activity
             android:name=".ElectricityDepartment"
             android:exported="false"

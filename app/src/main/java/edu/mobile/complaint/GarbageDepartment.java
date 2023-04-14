@@ -1,6 +1,7 @@
 package edu.mobile.complaint;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -39,7 +40,8 @@ public class GarbageDepartment extends AppCompatActivity {
     RetrofitService retrofitService = new RetrofitService();
     Button submit;
     int stateId, districtId;
-    TextInputEditText name, query, phoneNumber, address, pinCode;
+    String complaintId;
+    TextInputEditText name, query, phoneNumber, address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,6 @@ public class GarbageDepartment extends AppCompatActivity {
         query = findViewById(R.id.editQuery);
         phoneNumber = findViewById(R.id.editPhoneNumber);
         address = findViewById(R.id.editAddress);
-        pinCode = findViewById(R.id.editPinCode);
         garbageComplaintAdapter = findViewById(R.id.editGarbageComplaintList);
         stateAdapter = findViewById(R.id.editState);
         districtAdapter = findViewById(R.id.editDistrict);
@@ -75,15 +76,17 @@ public class GarbageDepartment extends AppCompatActivity {
 
         submit.setOnClickListener(view -> {
             if(!Objects.requireNonNull(name.getText()).toString().trim().isEmpty() && !Objects.requireNonNull(phoneNumber.getText()).toString().trim().isEmpty()
-            && !Objects.requireNonNull(address.getText()).toString().trim().isEmpty() && !Objects.requireNonNull(pinCode.getText()).toString().trim().isEmpty()
-            && !Objects.requireNonNull(garbageComplaintAdapter.getText()).toString().isEmpty() && !Objects.requireNonNull(stateAdapter.getText()).toString().trim().isEmpty()
-            && !Objects.requireNonNull(districtAdapter.getText()).toString().trim().isEmpty()) {
+            && !Objects.requireNonNull(address.getText()).toString().trim().isEmpty() && !Objects.requireNonNull(garbageComplaintAdapter.getText()).toString().isEmpty()
+            && !Objects.requireNonNull(stateAdapter.getText()).toString().trim().isEmpty() && !Objects.requireNonNull(districtAdapter.getText()).toString().trim().isEmpty()) {
                 
                 if(Objects.requireNonNull(phoneNumber.getText()).toString().length() != 10) {
                     Toast.makeText(getApplicationContext(), "Invalid Phone number", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                createComplaint();
+                complaintId = GeneratorComplaintId.generateId();
+                if(!complaintId.isEmpty()) {
+                    createComplaint();
+                }
             } else {
                 Toast.makeText(getApplicationContext(), "Provide all field - Empty field not allowed", Toast.LENGTH_SHORT).show();
             }
@@ -100,20 +103,21 @@ public class GarbageDepartment extends AppCompatActivity {
         garbage.setQuery(Objects.requireNonNull(query.getText()).toString());
         garbage.setPhoneNumber(Objects.requireNonNull(phoneNumber.getText()).toString());
         garbage.setAddress(Objects.requireNonNull(address.getText()).toString());
-        garbage.setPincode(Objects.requireNonNull(pinCode.getText()).toString());
         garbage.setStateId(stateId);
         garbage.setDistrictId(districtId);
         garbage.setDate(getDate());
         garbage.setStatus(String.valueOf(Status.SUBMITTED));
         garbage.setPriorityLevel(String.valueOf(PriorityLevel.LOW));
+        garbage.setComplaintId(complaintId);
 
-        Toast.makeText(this, "Creating Complaint....", Toast.LENGTH_SHORT).show();
         garbageApi.save(garbage).enqueue(new Callback<Garbage>() {
             @Override
             public void onResponse(@NonNull Call<Garbage> call,@NonNull Response<Garbage> response) {
                 Garbage responseGarbage = response.body();
                 if(responseGarbage != null) {
-                    Toast.makeText(GarbageDepartment.this, "Created complaint success", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), ComplaintId.class);
+                    intent.putExtra("Complaint_ID", complaintId);
+                    startActivity(intent);
                 } else Toast.makeText(GarbageDepartment.this, "Creation Failed", Toast.LENGTH_SHORT).show();
             }
 
