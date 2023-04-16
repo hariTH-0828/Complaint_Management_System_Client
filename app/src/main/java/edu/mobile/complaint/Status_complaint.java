@@ -1,5 +1,6 @@
 package edu.mobile.complaint;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -38,9 +40,10 @@ public class Status_complaint extends AppCompatActivity {
     TextInputEditText textComplaintId;
     View popupView;
     PopupWindow popupWindow;
+    LinearLayout layoutBackgroundSet;
     Button submit;
     String getComplaintId;
-    TextView department, complaintId, name, complaint, date, priority, status, okay;
+    TextView department, complaintId, name, complaint, date, priority, status;
 
     RetrofitService retrofitService = new RetrofitService();
 
@@ -52,6 +55,7 @@ public class Status_complaint extends AppCompatActivity {
         departmentAdapter = findViewById(R.id.editDepartment);
         textComplaintId = findViewById(R.id.editComplaintId);
         submit = findViewById(R.id.submitQuery);
+        layoutBackgroundSet = findViewById(R.id.StatusActivityLayout);
 
         LottieAnimationView animationView = findViewById(R.id.animation_view);
         animationView.playAnimation();
@@ -68,7 +72,7 @@ public class Status_complaint extends AppCompatActivity {
         departmentAdapter.setAdapter(adapter);
         
         submit.setOnClickListener(view -> {
-            if(!departmentAdapter.getText().toString().isEmpty() && !textComplaintId.getText().toString().isEmpty()) {
+            if(!departmentAdapter.getText().toString().isEmpty() && !Objects.requireNonNull(textComplaintId.getText()).toString().isEmpty()) {
                 getComplaintStatus();
             } else Toast.makeText(this, "Empty field not allowed", Toast.LENGTH_SHORT).show();
         });
@@ -88,7 +92,8 @@ public class Status_complaint extends AppCompatActivity {
 
     private void getGarbageComplaintStatus() {
         GarbageApi garbageApi = retrofitService.getRetrofit().create(GarbageApi.class);
-        garbageApi.getComplaintStatusBycId(textComplaintId.getText().toString()).enqueue(new Callback<Garbage>() {
+        garbageApi.getComplaintStatusBycId(Objects.requireNonNull(textComplaintId.getText()).toString()).enqueue(new Callback<Garbage>() {
+            @SuppressLint("InflateParams")
             @Override
             public void onResponse(@NonNull Call<Garbage> call, @NonNull Response<Garbage> response) {
                 if(response.isSuccessful()) {
@@ -112,16 +117,14 @@ public class Status_complaint extends AppCompatActivity {
                     date.setText(garbage.getDate());
                     priority.setText(garbage.getPriorityLevel());
                     status.setText(garbage.getStatus());
+                    layoutBackgroundSet.setVisibility(View.VISIBLE);
 
                     popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
                     popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
 
 
-                    popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-
-                        }
+                    popupWindow.setOnDismissListener(() -> {
+                        layoutBackgroundSet.setVisibility(View.INVISIBLE);
                     });
 
                 }
@@ -137,6 +140,7 @@ public class Status_complaint extends AppCompatActivity {
     private void getElectricityComplaintStatus() {
         ElectricityApi electricityApi = retrofitService.getRetrofit().create(ElectricityApi.class);
         electricityApi.getComplaintStatusBycId(getComplaintId).enqueue(new Callback<Electricity>() {
+            @SuppressLint("InflateParams")
             @Override
             public void onResponse(@NonNull Call<Electricity> call, @NonNull Response<Electricity> response) {
                 if(response.isSuccessful()) {
@@ -153,8 +157,8 @@ public class Status_complaint extends AppCompatActivity {
                     status = popupView.findViewById(R.id.textStatus);
 
                     department.setText(departmentAdapter.getText().toString());
-                    complaintId.setText(textComplaintId.getText().toString());
-                    complaint.setText(electricity.getIssue());
+                    complaintId.setText(Objects.requireNonNull(textComplaintId.getText()).toString());
+                    complaint.setText(Objects.requireNonNull(electricity).getIssue());
                     date.setText(electricity.getDate());
                     priority.setText(electricity.getPriorityLevel());
                     status.setText(electricity.getStatus());
@@ -163,18 +167,15 @@ public class Status_complaint extends AppCompatActivity {
                     popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
 
 
-                    popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
+                    popupWindow.setOnDismissListener(() -> {
 
-                        }
                     });
 
                 }
             }
 
             @Override
-            public void onFailure(Call<Electricity> call, Throwable t) {
+            public void onFailure(@NonNull Call<Electricity> call, @NonNull Throwable t) {
                 Toast.makeText(getApplicationContext(), "Invalid Complaint Id", Toast.LENGTH_SHORT).show();
             }
         });
@@ -183,6 +184,7 @@ public class Status_complaint extends AppCompatActivity {
     private void getWaterComplaintStatus() {
         WaterApi waterApi = retrofitService.getRetrofit().create(WaterApi.class);
         waterApi.getComplaintStatusBycId(getComplaintId).enqueue(new Callback<Water>() {
+            @SuppressLint("InflateParams")
             @Override
             public void onResponse(@NonNull Call<Water> call, @NonNull Response<Water> response) {
                 if(response.isSuccessful()) {
@@ -200,8 +202,8 @@ public class Status_complaint extends AppCompatActivity {
                     status = popupView.findViewById(R.id.textStatus);
 
                     department.setText(departmentAdapter.getText().toString());
-                    complaintId.setText(textComplaintId.getText().toString());
-                    name.setText(water.getName());
+                    complaintId.setText(Objects.requireNonNull(textComplaintId.getText()).toString());
+                    name.setText(Objects.requireNonNull(water).getName());
                     complaint.setText(water.getProblems());
                     date.setText(water.getDate());
                     priority.setText(water.getPriorityLevel());
@@ -211,17 +213,14 @@ public class Status_complaint extends AppCompatActivity {
                     popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
 
 
-                    popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
+                    popupWindow.setOnDismissListener(() -> {
 
-                        }
                     });
                 }
             }
 
             @Override
-            public void onFailure(Call<Water> call, Throwable t) {
+            public void onFailure(@NonNull Call<Water> call, @NonNull Throwable t) {
                 Toast.makeText(getApplicationContext(), "Invalid Complaint Id", Toast.LENGTH_SHORT).show();
             }
         });

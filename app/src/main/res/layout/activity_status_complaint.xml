@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Status_complaint">
+
+    <LinearLayout
+        android:id="@+id/StatusActivityLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:background="@drawable/background_dim"
+        android:orientation="horizontal" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
